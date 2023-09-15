@@ -1,2 +1,14 @@
-# Galaxy-Classification
-Computer Vision Final Project
+# Galaxy Classification
+<h2>Part 1</h2>
+For this project, I plan to implement computer vision algorithms to classify images of galaxies into 10 distinct subsets. I will utilize the extensive dataset from Henrysky's Galaxy10 (https://github.com/henrysky/Galaxy10). This dataset includes 17,736 galaxy images separated into the 10 classes listed below: <br/>
+├── Class 0 (1081 images): Disturbed Galaxies <br/>
+├── Class 1 (1853 images): Merging Galaxies <br/>
+├── Class 2 (2645 images): Round Smooth Galaxies <br/>
+├── Class 3 (2027 images): In-between Round Smooth Galaxies <br/>
+├── Class 4 ( 334 images): Cigar Shaped Smooth Galaxies <br/>
+├── Class 5 (2043 images): Barred Spiral Galaxies <br/>
+├── Class 6 (1829 images): Unbarred Tight Spiral Galaxies <br/>
+├── Class 7 (2628 images): Unbarred Loose Spiral Galaxies <br/>
+├── Class 8 (1423 images): Edge-on Galaxies without Bulge <br/>
+└── Class 9 (1873 images): Edge-on Galaxies with Bulge <br/>
+I will be developing an algorithm to classify these galaxies based on shape. I'll need to separate the galaxy from the background and determine where the galaxy's edges are. In general, the galaxy will have a bright spot in the center surrounded by different shapes and sizes of dust and stars. I'll have to be able to find the galactic center which will allow me to work outwards to find the edge. I will work out from the center in a circle incrementally increasing in size since no matter the shape, galaxies are usually round. After detecting the edge of the galaxy I'll narrow down the image so that the background is excluded and then I will work to find the shape. This will require me to look for certain features such as arms, multiple galaxies merging, bulges, and more. To find these features I'll have to classify different key points that are unique to specific galaxy shapes. The color can be mostly ignored as many images of galaxies will be captured through a variety of methods collecting many different wavelengths of light. No matter the method of capture the shape of the galaxy will always be constant and the background of empty space will always be black. Therefore, I'll still be able to separate the galaxy from the background no matter the wavelengths of light being collected. After developing these algorithms to determine these shapes I'll research how different machine learning techniques can help improve the accuracy and efficiency of classifying these galaxies. Some neural network architectures I'll explore are Convolutional Neural Networks, Recurrent Neural Networks, and Transfer Learning. After researching these methods I will try and implement the method I think would work best with my problem. I'll use half of the dataset listed above for training and half for validation. I'll then use new images of galaxies that are being collected by NASA's James Webb Space Telescope to do my final testing.
