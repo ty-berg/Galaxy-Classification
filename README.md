@@ -18,7 +18,8 @@ I've acquired one large dataset to use for the training, validation, and testing
 The dataset is linked here: https://astronn.readthedocs.io/en/latest/galaxy10.html</br>
 This is the dataset I discussed before which contains 17,736 galaxy images classified into 10 distinct classes. The images in this dataset are colored and 256x256 pixels. The first 60% of the images in each class will be used for training and will be kept as they were originally found. I will use the next 20% of the images in each class for validation. These images will be converted to grayscale and run through the algorithm I develop. This is to make sure that color isn't a distinguishing feature as the classification of a galaxy should not depend on color at all. Lastly, I will use the final 20% of each class of images for testing. These images were captured in both the visible and infrared spectra using a g (green), r (red), and z (infrared) band filter.
 
-
+<h2>Part 3</h2>
+Using my late assignment.
 
 
 
