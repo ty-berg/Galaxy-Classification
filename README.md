@@ -1,12 +1,15 @@
 # Galaxy Classification
-<h2>Instructions</h2>
+## Instructions
 To run be sure to have the proper libraries installed: h5py, numpy, tensorflow, opencv, itertools, and matplotlib </br>
 The file containing my data, Galaxy10_DECals.h5 is too large to upload to GitHub. It can be accessed here: https://astronn.readthedocs.io/en/latest/galaxy10.html </br>
 Or it can be loaded with this code: </br>
-from astroNN.datasets import load_galaxy10 </br>
-from tensorflow.keras import utils </br>
-import numpy as np </br>
-images, labels = load_galaxy10() </br>
+```python
+from astroNN.datasets import load_galaxy10 
+from tensorflow.keras import utils
+import numpy as np
+images, labels = load_galaxy10()
+```
+
 
 I avoided using this in my code since it redownloads the dataset everytime you run the program which took quite a bit of time so I decided to store it locally instead 
 <h2>Part 1</h2>
