@@ -5,8 +5,6 @@ The file containing my data, Galaxy10_DECals.h5 is too large to upload to GitHub
 Or it can be loaded with this code: </br>
 ```python
 from astroNN.datasets import load_galaxy10 
-from tensorflow.keras import utils
-import numpy as np
 images, labels = load_galaxy10()
 ```
 
