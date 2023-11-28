@@ -1,5 +1,4 @@
 # Galaxy Classification
-To run be sure to have the proper libraries installed: h5py, numpy, tensorflow, opencv, itertools, and matplotlib </br>
 <h2>Part 1</h2>
 For this project, I plan to implement computer vision algorithms to classify images of galaxies into 10 distinct subsets. I will utilize the extensive dataset from Henrysky's Galaxy10 (https://github.com/henrysky/Galaxy10). This dataset includes 17,736 galaxy images separated into the 10 classes listed below: <br/>
 ├── Class 0 (1081 images): Disturbed Galaxies <br/>
@@ -42,6 +41,8 @@ Other than small changes to the layers the last big experiment I performed with 
 As I head into the final report one small thing I may work on is finding the best values for the dense layers as this could lead to some improvements. I also will be running the current version overnight for 500 epochs to see what happens to the accuracies. I've currently only run the committed version for 45 epochs but the accuracy made it to 71% while still increasing so I believe that it can get even higher. </br>
 
 I also want to see what the kernels look like in each convolutional layer so I will be working with my code to properly visualize those heading into the final report.
+To run be sure to have the proper libraries installed: h5py, numpy, tensorflow, opencv, itertools, and matplotlib </br>
+
 
 
 
