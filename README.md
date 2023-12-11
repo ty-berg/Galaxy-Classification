@@ -51,7 +51,10 @@ Other than small changes to the layers the last big experiment I performed with 
 
 As I head into the final report one small thing I may work on is finding the best values for the dense layers as this could lead to some improvements. I also will be running the current version overnight for 500 epochs to see what happens to the accuracies. I've currently only run the committed version for 45 epochs but the accuracy made it to 71% while still increasing so I believe that it can get even higher. </br>
 
-I also want to see what the kernels look like in each convolutional layer so I will be working with my code to properly visualize those heading into the final report.
+I also want to see what the kernels look like in each convolutional layer so I will be working with my code to properly visualize those heading into the final report. </br>
+
+<h2>Part 5</h2>
+The dataset I used for my test data consists of 20% of the original dataset. It contains 20% of the images for each class leading to it containing roughly 3,500 images. I augumented these images to be in grayscale. I wanted to use this difference to determine if my neural network was actually learning the shapes of the different galaxies rather than using some other features that involved color. Color should not be used to classify galaxies so this is an important consideration to make when creating a galaxy classification algorithm.
 
 
 
