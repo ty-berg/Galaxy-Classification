@@ -66,7 +66,9 @@ Below are sets of 10 random images from the test and training datasets with thei
 You can see here that the model is doing well classifying these images into their general classes such as spiral, smooth, and edge-on. It has a more difficult time deciphering the smaller features that help it distinguish between the more specific subcategories of galaxies. As I mentioned earlier I think this is evidence that the model is using color to help identify these specific features rather than shape. </br>
 
 ![train](https://github.com/ty-berg/Galaxy-Classification/assets/70979891/47eb8944-184b-47e0-9758-cf59899973b1) </br>
-Here you can see that the model does very well with classifying the training data and clearly is learning how to properly classify these galaxies. I think this is evidence that with even more training and a deeper model, the classifications will become even more accurate.
+Here you can see that the model does very well with classifying the training data and clearly is learning how to properly classify these galaxies. I think this is evidence that with even more training and a deeper model, the classifications will become even more accurate. </br>
+
+Final Presentation: https://docs.google.com/presentation/d/1nkeDI-XIbQ5snEspvyRjCGssZXjksmzw9m3FW0aELZA/edit?usp=sharing
 
 
 
