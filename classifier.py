@@ -155,7 +155,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 model.summary()
 
-epochs = 1  # how many times the network will see the ENTIRE training set
+epochs = 300  # how many times the network will see the ENTIRE training set
 
 print('-TRAINING----------------------------')
 print('Input shape:', train.shape)
