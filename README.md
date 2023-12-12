@@ -54,9 +54,19 @@ As I head into the final report one small thing I may work on is finding the bes
 I also want to see what the kernels look like in each convolutional layer so I will be working with my code to properly visualize those heading into the final report. </br>
 
 <h2>Part 5</h2>
-The dataset I used for my test data consists of 20% of the original dataset. It contains 20% of the images for each class leading to it containing roughly 3,500 images. I augumented these images to be in grayscale. I wanted to use this difference to determine if my neural network was actually learning the shapes of the different galaxies rather than using some other features that involved color. Color should not be used to classify galaxies so this is an important consideration to make when creating a galaxy classification algorithm.
+The dataset I used for my test data consists of 20% of the original dataset. It contains 20% of the images for each class, containing roughly 3,500 images. I augmented these images to be in grayscale. I wanted to use this difference to determine if my neural network was actually learning the shapes of the different galaxies rather than using some other features that involved color. Color should not be used to classify galaxies, which is an important consideration when creating a galaxy classification algorithm. </br>
 
+Since the model training takes about 10 hours to train over 500 epochs fully, I've only run the test set on 30 epochs. Through these 30 epochs, the training accuracy reached about 68%, and the validation accuracy reached roughly 60% in this brief training. After training, I used the model to predict the test dataset, achieving an accuracy of about 45%.</br>
 
+There was a slight decrease in the accuracy between the training and test datasets. I think this is evidence that the training is taking some colors into account when classifying these galaxies. I believe a way to increase the accuracy across not just the test datasets but also the training and validation is by training the model for longer. Since the last part, I've added more layers to deepen the model. I think I've also managed to improve the overfitting since the last part. I think experimenting with the dropout, max pooling, and normalization could improve this even more. </br>
+
+Below are sets of 10 random images from the test and training datasets with their predicted classifications:</br>
+
+![test_images](https://github.com/ty-berg/Galaxy-Classification/assets/70979891/b43ce286-a3a0-4e22-8bad-7dab8aef8aab) </br>
+You can see here that the model is doing well classifying these images into their general classes such as spiral, smooth, and edge-on. It has a more difficult time deciphering the smaller features that help it distinguish between the more specific subcategories of galaxies. As I mentioned earlier I think this is evidence that the model is using color to help identify these specific features rather than shape. </br>
+
+![train](https://github.com/ty-berg/Galaxy-Classification/assets/70979891/47eb8944-184b-47e0-9758-cf59899973b1) </br>
+Here you can see that the model does very well with classifying the training data and clearly is learning how to properly classify these galaxies. I think this is evidence that with even more training and a deeper model, the classifications will become even more accurate.
 
 
 
