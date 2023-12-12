@@ -4,6 +4,48 @@ import tensorflow as tf
 import cv2
 import itertools as it
 import matplotlib.pyplot as plt
+import random
+
+def display_images(images, true_labels, predicted_labels=None, num_images=5, classes=None):
+    """
+    Display random images with their classifications.
+
+    Parameters:
+    - images: array of images.
+    - true_labels: array of true labels.
+    - predicted_labels: (optional) array of predicted labels.
+    - num_images: number of images to display.
+    - classes: (optional) list of class names corresponding to label indices.
+    """
+
+    plt.figure(figsize=(15, 6))  # Adjust size as needed
+
+    # Randomly select images
+    random_indices = random.sample(range(images.shape[0]), num_images)
+
+    for i, idx in enumerate(random_indices):
+        ax = plt.subplot(2,int(num_images/2), i + 1)
+        plt.imshow(images[idx])
+        plt.axis('off')
+
+        true_label = true_labels[idx]
+        if classes:
+            true_label = classes[true_label]
+
+        title = f'True: {true_label}'
+
+        if predicted_labels is not None:
+            predicted_label = predicted_labels[idx]
+            if classes:
+                predicted_label = classes[predicted_label]
+            title += f'\nPred: {predicted_label}'
+        ax.set_title(title, fontsize=5)
+
+    plt.subplots_adjust(wspace=3, hspace=0)  # Adjust spacing
+    plt.show()
+
+
+
 
 train_sizes = [649,1112,1587,1216,200,1226,1097,1577,854,1124]
 val_sizes = [216,371,529,405,67,409,366,526,285,375]
@@ -39,8 +81,10 @@ for i in range(len(labels)):
         validation_labels.append(labels[i])
         validation.append(downscaled_image)
     else:
+        grey_image = cv2.cvtColor(downscaled_image, cv2.COLOR_RGB2GRAY)
+        expanded_image = np.stack((grey_image,)*3, axis=-1)
         test_labels.append(labels[i])
-        test.append(downscaled_image)
+        test.append(expanded_image)
 
 train = np.array(train)
 train_labels = np.array(train_labels)
@@ -64,15 +108,27 @@ train /= 255
 validation /= 255
 test /= 255
 model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Conv2D(filters=8, kernel_size = (7,7), input_shape = input_shape))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.Activation('relu'))
+
 model.add(tf.keras.layers.Conv2D(filters=8, kernel_size = (5,5), input_shape = input_shape))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.Activation('relu'))
 
-model.add(tf.keras.layers.Conv2D(filters=8, kernel_size = (3,3), input_shape = input_shape))
+model.add(tf.keras.layers.Conv2D(filters=8, kernel_size = (5,5), input_shape = input_shape))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.Activation('relu'))
+
+model.add(tf.keras.layers.Conv2D(filters=16, kernel_size = (5,5), input_shape = input_shape))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.Activation('relu'))
 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 
+model.add(tf.keras.layers.Conv2D(filters=16, kernel_size = (3,3), input_shape = input_shape))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.Activation('relu'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 
 model.add(tf.keras.layers.Conv2D(filters=16, kernel_size = (3,3), input_shape = input_shape))
 model.add(tf.keras.layers.BatchNormalization())
@@ -80,13 +136,18 @@ model.add(tf.keras.layers.Activation('relu'))
 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 
 model.add(tf.keras.layers.Conv2D(filters=32, kernel_size = (3,3), input_shape = input_shape))
+model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.Activation('relu'))
 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
-model.add(tf.keras.layers.Dropout(0.25))
+
+model.add(tf.keras.layers.Conv2D(filters=32, kernel_size = (3,3), input_shape = input_shape))
+model.add(tf.keras.layers.Activation('relu'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Dropout(0.35))
 
 model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(1024, activation='relu'))
-model.add(tf.keras.layers.Dropout(0.35))
+model.add(tf.keras.layers.Dropout(0.45))
 model.add(tf.keras.layers.Dense(512, activation='relu'))
 model.add(tf.keras.layers.Dense(units=10,activation='softmax'))
 
@@ -94,33 +155,36 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 model.summary()
 
-epochs = 45  # how many times the network will see the ENTIRE training set
+epochs = 1  # how many times the network will see the ENTIRE training set
 
 print('-TRAINING----------------------------')
 print('Input shape:', train.shape)
 print('Number of training images: ', train.shape[0])
 # Fit the model
-model.fit(datagen.flow(train, train_labels, batch_size=64),
+model.fit(datagen.flow(train, train_labels, batch_size=32),
           epochs=epochs,
           validation_data=(validation, validation_labels))
 
-for layer in model.layers:
-    if 'conv' in layer.name:
-        filters, biases = layer.get_weights()
+test_loss, test_accuracy = model.evaluate(test, test_labels, batch_size=32)
+print(f"Test Loss: {test_loss}")
+print(f"Test Accuracy: {test_accuracy}")
 
-        # normalize filter values to 0-1 so we can visualize them
-        f_min, f_max = filters.min(), filters.max()
-        filters = (filters - f_min) / (f_max - f_min)
+# Predict labels for test images
+predicted_labels_test = np.argmax(model.predict(test), axis=1)
+true_labels_test = np.argmax(test_labels, axis=1)
 
-fig, axes = plt.subplots(4, 4)
-fig.tight_layout()
+# Display test images
+display_images(test, true_labels_test, predicted_labels_test, num_images=10, classes=['Disturbed Galaxies', 'Merging Galaxies', 'Round Smooth Galaxies', 'In-between Round Smooth Galaxies', 'Cigar Shaped Smooth Galaxies', 'Barred Spiral Galaxies', 'Unbarred Tight Spiral Galaxies','Unbarred Loose Spiral Galaxies','Edge-on Galaxies without Bulge','Edge-on Galaxies with Bulge'])
 
-for i, j in it.product(range(4),range(4)):
-    axes[i, j].imshow(filters[:,:,0,(i+1)*(j+1)-1],cmap='Greys')
-    axes[i, j].set_aspect('equal', 'box')
+# Predict labels for test images
+predicted_labels_train = np.argmax(model.predict(train), axis=1)
+true_labels_train = np.argmax(train_labels, axis=1)
 
-plt.setp(axes, xticks = [], yticks = [])
-plt.show()
+# Display test images
+display_images(train, true_labels_train, predicted_labels_train, num_images=10, classes=['Disturbed Galaxies', 'Merging Galaxies', 'Round Smooth Galaxies', 'In-between Round Smooth Galaxies', 'Cigar Shaped Smooth Galaxies', 'Barred Spiral Galaxies', 'Unbarred Tight Spiral Galaxies','Unbarred Loose Spiral Galaxies','Edge-on Galaxies without Bulge','Edge-on Galaxies with Bulge'])
+
+
+
 
 
 
